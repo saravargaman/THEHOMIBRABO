@@ -1,0 +1,261 @@
+let paises = [
+  { nome: "Nova Zelândia", idadeMin: 18, preferencias: ["aventura", "natureza", "relaxamento"] },
+  { nome: "Japão", idadeMin: 12, preferencias: ["cultura", "aventura", "gastronomia"] },
+  { nome: "Itália", idadeMin: 0, preferencias: ["cultura", "gastronomia", "relaxamento"] },
+  { nome: "Canadá", idadeMin: 16, preferencias: ["natureza", "aventura", "cultura"] },
+  { nome: "Islândia", idadeMin: 18, preferencias: ["natureza", "aventura"] },
+  { nome: "Brasil", idadeMin: 0, preferencias: ["aventura", "natureza", "cultura", "relaxamento"] },
+  { nome: "França", idadeMin: 0, preferencias: ["cultura", "gastronomia", "relaxamento"] }
+];
+
+// ---
+// 1. Get user input
+// ---
+
+// For a simple browser-based example:
+let idadeUsuario = parseInt(prompt("Qual é a sua idade?"));
+
+let gostaAventura = confirm("Você gosta de viagens de aventura?");
+let gostaCultura = confirm("Você gosta de viagens culturais?");
+let gos<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendador de Países</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #e8f5e9; /* Light green background */
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 30px auto;
+            border-top: 5px solid #4CAF50; /* Green border top */
+        }
+        h1 {
+            color: #2E7D32; /* Green heading */
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .preference-checkbox-group {
+            margin-bottom: 20px;
+        }
+        .preference-checkbox {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .preference-checkbox input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        button {
+            background-color: #4CAF50; /* Green button */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #388E3C; /* Darker green on hover */
+        }
+        #recomendacoes {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f1f8e9; /* Light green background for recommendations */
+            border-radius: 8px;
+            border: 1px solid #A5D6A7; /* Green border for recommendations */
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.1em;
+            color: #33691E; /* Dark green text for recommendations */
+            white-space: pre-wrap;
+        }
+        #recomendacoes.error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Descubra Seu Próximo Destino!</h1>
+
+        <label for="idade">Qual é a sua idade?</label>
+        <input type="number" id="idade" min="0" placeholder="Digite sua idade">
+
+        <p>Quais tipos de viagem você mais gosta?</p>
+        <div class="preference-checkbox-group">
+            <div class="preference-checkbox">
+                <input type="checkbox" id="aventura">
+                <label for="aventura">Aventura (trilhas, esportes radicais)</label>
+            </div>
+            <div class="preference-checkbox">
+                <input type="checkbox" id="cultura">
+                <label for="cultura">Cultura (museus, história, tradições)</label>
+            </div>
+            <div class="preference-checkbox">
+                <input type="checkbox" id="relaxamento">
+                <label for="relaxamento">Relaxamento (praias, spas, tranquilidade)</label>
+            </div>
+            <div class="preference-checkbox">
+                <input type="checkbox" id="natureza">
+                <label for="natureza">Natureza (montanhas, parques, vida selvagem)</label>
+            </div>
+            <div class="preference-checkbox">
+                <input type="checkbox" id="gastronomia">
+                <label for="gastronomia">Gastronomia (experiências culinárias)</label>
+            </div>
+            <div class="preference-checkbox">
+                <input type="checkbox" id="historia">
+                <label for="historia">História (sítios arqueológicos, monumentos)</label>
+            </div>
+            <div class="preference-checkbox">
+                <input type="checkbox" id="urbano">
+                <label for="urbano">Urbano (grandes cidades, vida noturna)</label>
+            </div>
+        </div>
+
+        <button onclick="recomendarPaises()">Recomendar Países</button>
+
+        <div id="recomendacoes">
+            Preencha seus dados e clique em "Recomendar Países" para ver sugestões!
+        </div>
+    </div>
+
+    <script>
+        let paises = [
+            { nome: "Nova Zelândia", idadeMin: 18, preferencias: ["aventura", "natureza", "relaxamento"] },
+            { nome: "Japão", idadeMin: 12, preferencias: ["cultura", "aventura", "gastronomia", "urbano"] },
+            { nome: "Itália", idadeMin: 0, preferencias: ["cultura", "gastronomia", "relaxamento", "historia", "urbano"] },
+            { nome: "Canadá", idadeMin: 16, preferencias: ["natureza", "aventura", "cultura", "urbano"] },
+            { nome: "Islândia", idadeMin: 18, preferencias: ["natureza", "aventura"] },
+            { nome: "Brasil", idadeMin: 0, preferencias: ["aventura", "natureza", "cultura", "relaxamento", "gastronomia", "urbano"] },
+            { nome: "França", idadeMin: 0, preferencias: ["cultura", "gastronomia", "relaxamento", "urbano"] },
+            { nome: "Egito", idadeMin: 10, preferencias: ["cultura", "historia", "aventura"] },
+            { nome: "Tailândia", idadeMin: 16, preferencias: ["relaxamento", "gastronomia", "cultura", "natureza", "aventura", "urbano"] },
+            { nome: "Grécia", idadeMin: 0, preferencias: ["cultura", "historia", "relaxamento", "gastronomia"] },
+            { nome: "Peru", idadeMin: 12, preferencias: ["aventura", "cultura", "historia", "natureza", "gastronomia"] },
+            { nome: "México", idadeMin: 0, preferencias: ["cultura", "gastronomia", "relaxamento", "historia", "aventura"] },
+            { nome: "Austrália", idadeMin: 18, preferencias: ["natureza", "aventura", "relaxamento", "urbano"] },
+            { nome: "Marrocos", idadeMin: 10, preferencias: ["cultura", "aventura", "gastronomia", "historia"] },
+            { nome: "Vietnã", idadeMin: 16, preferencias: ["gastronomia", "cultura", "natureza", "historia", "aventura"] },
+            { nome: "Alemanha", idadeMin: 10, preferencias: ["cultura", "historia", "urbano", "gastronomia"] },
+            { nome: "Índia", idadeMin: 14, preferencias: ["cultura", "gastronomia", "historia", "relaxamento"] }
+        ];
+
+        function recomendarPaises() {
+            let idadeUsuario = parseInt(document.getElementById("idade").value);
+            let recomendacoesDiv = document.getElementById("recomendacoes");
+            recomendacoesDiv.classList.remove('error');
+
+            if (isNaN(idadeUsuario) || idadeUsuario < 0) {
+                recomendacoesDiv.innerText = "Por favor, insira uma idade válida (número maior ou igual a 0).";
+                recomendacoesDiv.classList.add('error');
+                return;
+            }
+
+            // Get preferences from checkboxes
+            let gostaAventura = document.getElementById("aventura").checked;
+            let gostaCultura = document.getElementById("cultura").checked;
+            let gostaRelaxamento = document.getElementById("relaxamento").checked;
+            let gostaNatureza = document.getElementById("natureza").checked;
+            let gostaGastronomia = document.getElementById("gastronomia").checked;
+            let gostaHistoria = document.getElementById("historia").checked;
+            let gostaUrbano = document.getElementById("urbano").checked;
+
+            let paisesRecomendados = [];
+
+            for (let pais of paises) {
+                if (idadeUsuario >= pais.idadeMin) {
+                    // Check if *any* of the selected preferences match the country's preferences
+                    let matchesPreference = false;
+                    if (gostaAventura && pais.preferencias.includes("aventura")) matchesPreference = true;
+                    if (gostaCultura && pais.preferencias.includes("cultura")) matchesPreference = true;
+                    if (gostaRelaxamento && pais.preferencias.includes("relaxamento")) matchesPreference = true;
+                    if (gostaNatureza && pais.preferencias.includes("natureza")) matchesPreference = true;
+                    if (gostaGastronomia && pais.preferencias.includes("gastronomia")) matchesPreference = true;
+                    if (gostaHistoria && pais.preferencias.includes("historia")) matchesPreference = true;
+                    if (gostaUrbano && pais.preferencias.includes("urbano")) matchesPreference = true;
+
+                    if (matchesPreference) {
+                        paisesRecomendados.push(pais.nome);
+                    }
+                }
+            }
+
+            if (paisesRecomendados.length > 0) {
+                recomendacoesDiv.innerText = "Países recomendados para você:\n" + paisesRecomendados.join("\n");
+            } else {
+                recomendacoesDiv.innerText = "Desculpe, não encontramos países que correspondam às suas preferências e idade.";
+            }
+        }
+    </script>
+</body>
+</html>taRelaxamento = confirm("Você gosta de viagens para relaxar?");
+let gostaNatureza = confirm("Você gosta de viagens em meio à natureza?");
+let gostaGastronomia = confirm("Você gosta de viagens com foco em gastronomia?");
+
+
+let paisesRecomendados = [];
+
+// ---
+// 2. Filter and recommend countries
+// ---
+
+for (let pais of paises) {
+  // Check if the user's age is greater than or equal to the country's minimum age recommendation
+  if (idadeUsuario >= pais.idadeMin) {
+    // Check if the user likes at least one of the country's preferences
+    if (
+      (gostaAventura && pais.preferencias.includes("aventura")) ||
+      (gostaCultura && pais.preferencias.includes("cultura")) ||
+      (gostaRelaxamento && pais.preferencias.includes("relaxamento")) ||
+      (gostaNatureza && pais.preferencias.includes("natureza")) ||
+      (gostaGastronomia && pais.preferencias.includes("gastronomia"))
+    ) {
+      paisesRecomendados.push(pais.nome);
+    }
+  }
+}
+
+// ---
+// 3. Display recommendations
+// ---
+
+if (paisesRecomendados.length > 0) {
+  alert("Países recomendados para você com base nas suas preferências:\n" + paisesRecomendados.join("\n"));
+} else {
+  alert("Desculpe, não encontramos países que correspondam às suas preferências.");
+}
